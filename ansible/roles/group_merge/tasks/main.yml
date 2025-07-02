@@ -1,0 +1,16 @@
+---
+# tasks file for group_merge role
+# Equivalent to puppet/manifests/group_merge.pp
+
+- name: Create or remove groups using group module
+  ansible.builtin.group:
+    name: "{{ item.key }}"
+    gid: "{{ item.value.gid }}"
+    state: "{{ item.value.ensure }}"
+  loop: "{{ local_groups | dict2items }}"
+  when:
+    - local_groups is defined
+    - local_groups | length > 0
+    - item.value.gid is defined
+    - item.value.ensure is defined
+  become: true

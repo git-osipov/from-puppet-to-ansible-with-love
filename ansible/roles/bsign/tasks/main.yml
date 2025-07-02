@@ -1,0 +1,17 @@
+---
+# tasks file for bsign role
+# Equivalent to puppet/manifests/bsign.pp
+
+- name: Install bsign package (if available)
+  ansible.builtin.package:
+    name: bsign
+    state: "{{ bsign_pkg_status }}"
+  become: true
+  ignore_errors: true
+
+- name: Install fly-fm-bsign package (if available)
+  ansible.builtin.package:
+    name: fly-fm-bsign
+    state: "{{ fly_fm_bsign_pkg_status }}"
+  become: true
+  ignore_errors: true

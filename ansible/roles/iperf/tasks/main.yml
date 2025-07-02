@@ -1,0 +1,23 @@
+---
+# tasks file for iperf role
+# Equivalent to puppet/manifests/iperf.pp
+
+- name: Install specific version of iperf (if available)
+  ansible.builtin.apt:
+    name: "iperf={{ iperf_status }}"
+    state: present
+    update_cache: true
+  become: true
+  when:
+    - iperf_status is defined
+    - ansible_os_family == "Debian"
+  ignore_errors: true
+  register: iperf_specific_install
+
+- name: Install latest iperf package (fallback)
+  ansible.builtin.package:
+    name: iperf
+    state: present
+  become: true
+  when:
+    - iperf_specific_install is failed or iperf_status is not defined

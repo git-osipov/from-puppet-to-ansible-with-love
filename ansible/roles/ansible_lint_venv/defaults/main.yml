@@ -1,0 +1,4 @@
+---
+# defaults file for ansible_lint_venv role
+ansible_lint_venv_pkg_status: latest
+ansible_lint_venv_path: /opt/ansible-lint-venv

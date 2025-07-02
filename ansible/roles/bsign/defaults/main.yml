@@ -1,0 +1,4 @@
+---
+# defaults file for bsign role
+bsign_pkg_status: present
+fly_fm_bsign_pkg_status: present

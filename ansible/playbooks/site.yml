@@ -1,0 +1,12 @@
+---
+# Main site playbook - equivalent to all Puppet manifests
+- name: Configure all systems
+  hosts: all
+  become: true
+  roles:
+    - facl
+    - ansible_lint_venv
+    - assistant
+    - bsign
+    - group_merge
+    - iperf

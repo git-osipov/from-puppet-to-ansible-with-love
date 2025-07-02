@@ -1,0 +1,17 @@
+---
+# tasks file for ansible_lint_venv role
+# Equivalent to puppet/manifests/ansible-lint-venv.pp
+
+- name: Install python3-venv package
+  ansible.builtin.package:
+    name: python3-venv
+    state: present
+  become: true
+
+- name: Create virtual environment for ansible-lint
+  ansible.builtin.pip:
+    name: ansible-lint
+    virtualenv: "{{ ansible_lint_venv_path }}"
+    virtualenv_command: python3 -m venv
+    state: "{{ ansible_lint_venv_pkg_status }}"
+  become: true

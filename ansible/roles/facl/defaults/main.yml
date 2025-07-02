@@ -1,0 +1,16 @@
+---
+# defaults file for facl role
+files: {}
+
+# Example usage:
+# files:
+#   test:
+#     member: vagrant
+#     location: /home/vagrant/02/3
+#     permission: "---"
+#     type: group
+#   python2.7:
+#     member: bamboo-agent
+#     location: /home/vagrant/02/4
+#     permission: rwx
+#     type: user

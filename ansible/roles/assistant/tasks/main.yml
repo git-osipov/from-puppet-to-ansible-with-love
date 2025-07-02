@@ -1,0 +1,25 @@
+---
+# tasks file for assistant role
+# Equivalent to puppet/manifests/assistant.pp
+
+- name: Check if assistant package exists
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Install assistant package (if available)
+  ansible.builtin.package:
+    name: assistant
+    state: "{{ assistant_pkg_status }}"
+  become: true
+  ignore_errors: true
+  register: assistant_install
+
+- name: Configure assistant service (if package was installed)
+  ansible.builtin.systemd:
+    name: assistant
+    state: "{{ assistant_service_ensure }}"
+    enabled: "{{ assistant_service_enable }}"
+    daemon_reload: true
+  become: true
+  when: assistant_install is succeeded
+  ignore_errors: true

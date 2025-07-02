@@ -1,0 +1,38 @@
+---
+# tasks file for facl role
+# Equivalent to puppet/manifests/acl.pp
+
+- name: Install ACL package
+  ansible.builtin.package:
+    name: acl
+    state: present
+  become: true
+
+- name: Create directories for ACL files
+  ansible.builtin.file:
+    path: "{{ item.value.location | dirname }}"
+    state: directory
+    mode: '0755'
+  loop: "{{ files | dict2items }}"
+  when: files is defined
+  become: true
+
+- name: Create files for ACL management
+  ansible.builtin.file:
+    path: "{{ item.value.location }}"
+    state: touch
+    mode: '0644'
+  loop: "{{ files | dict2items }}"
+  when: files is defined
+  become: true
+
+- name: Set POSIX ACLs on files
+  ansible.posix.acl:
+    path: "{{ item.value.location }}"
+    entity: "{{ item.value.member }}"
+    etype: "{{ item.value.type }}"
+    permissions: "{{ item.value.permission }}"
+    state: present
+  loop: "{{ files | dict2items }}"
+  when: files is defined
+  become: true

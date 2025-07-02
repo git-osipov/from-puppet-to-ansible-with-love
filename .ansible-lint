@@ -1,0 +1,15 @@
+---
+# .ansible-lint configuration file
+profile: basic
+
+# Exclude certain rules that are less critical for this migration
+skip_list:
+  - var-naming[no-role-prefix]  # Allow variables without role prefix for migration
+  - ignore-errors  # Allow ignore_errors for packages that may not exist
+
+# Warn only for certain rules
+warn_list:
+  - schema[meta]  # Warn about meta schema issues but don't fail
+
+# Use FQCN for modules
+use_default_rules: true

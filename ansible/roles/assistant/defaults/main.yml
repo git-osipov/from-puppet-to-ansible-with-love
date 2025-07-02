@@ -1,0 +1,5 @@
+---
+# defaults file for assistant role
+assistant_pkg_status: latest
+assistant_service_enable: true
+assistant_service_ensure: "{{ 'started' if assistant_service_enable else 'stopped' }}"

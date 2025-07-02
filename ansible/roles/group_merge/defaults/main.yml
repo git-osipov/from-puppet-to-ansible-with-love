@@ -1,0 +1,12 @@
+---
+# defaults file for group_merge role
+local_groups: {}
+
+# Example usage:
+# local_groups:
+#   vboxusers:
+#     ensure: present
+#     gid: "10050"
+#   libvirt:
+#     ensure: absent
+#     gid: "10051"

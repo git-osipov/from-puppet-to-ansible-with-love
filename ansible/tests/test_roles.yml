@@ -1,0 +1,68 @@
+---
+# Test playbook for all roles
+- name: Test all Ansible roles
+  hosts: localhost
+  connection: local
+  become: true
+  vars:
+    local_groups:
+      testgroup:
+        ensure: present
+        gid: "9999"
+    files:
+      testfile:
+        member: root
+        location: /tmp/test_acl_file
+        permission: "rwx"
+        type: user
+  roles:
+    - facl
+    - ansible_lint_venv
+    - assistant
+    - bsign
+    - group_merge
+    - iperf
+
+  post_tasks:
+    - name: Verify ACL package is installed
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Check if acl package is installed
+      ansible.builtin.assert:
+        that:
+          - "'acl' in ansible_facts.packages"
+        fail_msg: "ACL package is not installed"
+        success_msg: "ACL package is installed"
+
+    - name: Verify iperf package is installed
+      ansible.builtin.assert:
+        that:
+          - "'iperf' in ansible_facts.packages"
+        fail_msg: "iperf package is not installed"
+        success_msg: "iperf package is installed"
+
+    - name: Check if test group was created
+      getent:
+        database: group
+        key: testgroup
+      register: test_group_result
+
+    - name: Verify test group exists
+      ansible.builtin.assert:
+        that:
+          - test_group_result.ansible_facts.getent_group.testgroup[1] == "9999"
+        fail_msg: "Test group was not created with correct GID"
+        success_msg: "Test group created successfully"
+
+    - name: Check if ansible-lint venv exists
+      ansible.builtin.stat:
+        path: /opt/ansible-lint-venv/bin/ansible-lint
+      register: ansible_lint_venv_result
+
+    - name: Verify ansible-lint venv was created
+      ansible.builtin.assert:
+        that:
+          - ansible_lint_venv_result.stat.exists
+        fail_msg: "ansible-lint virtual environment was not created"
+        success_msg: "ansible-lint virtual environment created successfully"

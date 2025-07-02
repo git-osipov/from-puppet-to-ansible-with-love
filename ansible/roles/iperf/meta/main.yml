@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  author: openhands
+  description: Install iperf network testing tool
+  company: "Example Company"
+  license: Apache-2.0
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 18.04
+        - 20.04
+        - 22.04
+        - 24.04
+    - name: Debian
+      versions:
+        - 10
+        - 11
+        - 12
+  galaxy_tags:
+    - networking
+    - testing
+    - iperf
+
+dependencies: []
